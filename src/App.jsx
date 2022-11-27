@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import './App.css';
 
@@ -8,12 +8,16 @@ function App() {
 
   function add() {
     setTask([...task, input]);
-    setInput("")
-    localStorage.setItem("task",JSON.stringify(task))
-  
+    setInput('');
+    localStorage.setItem('task', JSON.stringify(task));
   }
 
+  useEffect(() => {
+    var tasks;
 
+    tasks = localStorage.getItem('task');
+    setTask(JSON.parse(tasks));
+  }, []);
 
   return (
     <div className="App">
@@ -26,15 +30,11 @@ function App() {
         />
         <button onClick={add}>enviar</button>
       </div>
-      <ul>{
-      
-      task.map((tar)=>(
-        <li key={tar}>{tar}</li>
-
-      ))
-      
-      
-      }</ul>
+      <ul>
+        {task.map((tar) => (
+          <li key={tar}>{tar}</li>
+        ))}
+      </ul>
     </div>
   );
 }
